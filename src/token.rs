@@ -9,7 +9,7 @@ pub enum TokenKind {
 
 #[derive(Debug, Clone)]
 pub struct Token {
-    kind: TokenKind,
+    pub kind: TokenKind,
     literal: String,
 }
 

@@ -1,1 +1,1 @@
-let foo = 12345_00.00
+let foo

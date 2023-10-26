@@ -1,9 +1,10 @@
 use std::fs;
 use std::env;
-use crate::lexer::Lexer;
 
 mod lexer;
 mod token;
+mod parser;
+mod ast;
 
 
 fn main() {
@@ -21,9 +22,8 @@ fn main() {
         panic!("Could not read contents")
     };
 
-    let mut lex = Lexer::new(contents);
-
-    while let Some(t) = lex.next() {
-        println!("{:?}", t);
-    }
+    let mut lex = lexer::Lexer::new(contents);
+    let mut p = parser::Parser::new(lex);
+    let prog = p.parse();
+    println!("{:?}", prog)
 }
