@@ -1,1 +1,1 @@
-let foo
+let foo = 1000.00

@@ -40,20 +40,11 @@ impl Lexer {
             self.read();
         }
     }
-}
 
-impl Iterator for Lexer {
-
-    type Item = Token;
-
-    fn next(&mut self) -> Option<Token> {
-        if self.next >= self.source.len() {
-            return None;
-        }
-
+    fn match_token(&mut self) -> Token {
         self.skip_whitespace();
 
-        let t: Token = match self.char {
+        match self.char {
             '=' => { 
                 self.read();
                 Token::new(TokenKind::Assign, "=".to_owned())
@@ -102,8 +93,44 @@ impl Iterator for Lexer {
                 Token::new(TokenKind::Number, buffer)
             },
             _ => unimplemented!()
-        };
-        Some(t)
+        }
+    }
+
+    pub fn peek(&mut self) -> Option<Token>{
+        if self.next >= self.source.len() {
+            return None;
+        }
+
+        let old_current = self.current;
+        let old_next = self.next;
+        let old_char = self.char;
+
+        let token = self.match_token();
+        self.char = old_char;
+        self.current = old_current;
+        self.next = old_next;
+
+        // self.skip_whitespace();
+        self.char = self.source[self.next];
+
+        Some(token)
+
+
+    }
+}
+
+impl Iterator for Lexer {
+
+    type Item = Token;
+
+    fn next(&mut self) -> Option<Token> {
+        if self.next >= self.source.len() {
+            return None;
+        }
+
+        let token = self.match_token();
+
+        Some(token)
     }
     
 }

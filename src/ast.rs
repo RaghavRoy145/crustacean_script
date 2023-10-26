@@ -2,12 +2,12 @@
 pub enum Statement {
     Let {
         name: String,
-        init: Expression,
+        initial: Expression,
 
     }
 }
 
 #[derive(Debug)]
 pub enum Expression {
-    
+    Number(f64)
 }
