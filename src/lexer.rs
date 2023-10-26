@@ -45,6 +45,22 @@ impl Lexer {
         self.skip_whitespace();
 
         match self.char {
+            '+' => {
+                self.read();
+                Token::new(TokenKind::Plus, "+".to_owned())
+            },
+            '-' => {
+                self.read();
+                Token::new(TokenKind::Subtract, "-".to_owned())
+            },
+            '/' => {
+                self.read();
+                Token::new(TokenKind::Divide, "/".to_owned())
+            },
+            '*' => {
+                self.read();
+                Token::new(TokenKind::Multiply, "+".to_owned())
+            },
             '=' => { 
                 self.read();
                 Token::new(TokenKind::Assign, "=".to_owned())

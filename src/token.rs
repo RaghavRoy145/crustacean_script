@@ -3,8 +3,14 @@ pub enum TokenKind {
     Identifier,
     Assign,
     Let,
+
     String,
-    Number
+    Number,
+
+    Plus,
+    Multiply,
+    Subtract,
+    Divide
 }
 
 #[derive(Debug, Clone)]

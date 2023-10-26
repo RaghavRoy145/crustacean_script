@@ -9,5 +9,14 @@ pub enum Statement {
 
 #[derive(Debug)]
 pub enum Expression {
-    Number(f64)
+    Number(f64),
+    Binary(Box<Expression>, BinaryOp, Box<Expression>)
+}
+
+#[derive(Debug)]
+pub enum BinaryOp {
+    Plus,
+    Multiply,
+    Subtract,
+    Divide
 }
