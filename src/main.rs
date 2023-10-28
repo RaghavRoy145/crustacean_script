@@ -1,29 +1,12 @@
-use std::fs;
-use std::env;
+use std::env::args;
+use std::fs::read_to_string;
 
-mod lexer;
 mod token;
-mod parser;
-mod ast;
-
 
 fn main() {
-    let maybe_file = env::args().nth(1);
-    let file = if let Some(f) = maybe_file {
-        f
-    } else {
-        panic!("Expected a file");
-    };
+   let file = args().nth(1).unwrap();
+   let contents = read_to_string(file).unwrap();
+   let tokens = token::generate(contents.as_str());
 
-    let maybe_contents = fs::read_to_string(file);
-    let contents = if maybe_contents.is_ok() {
-        maybe_contents.unwrap()
-    } else {
-        panic!("Could not read contents")
-    };
-
-    let mut lex = lexer::Lexer::new(contents);
-    let mut p = parser::Parser::new(lex);
-    let prog = p.parse();
-    println!("{:?}", prog)
+   dbg!(tokens);
 }

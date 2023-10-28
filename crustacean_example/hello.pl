@@ -1,1 +1,5 @@
-let foo = 1000.00
+fn say_hello(name) {
+    print("Hello, " + name)
+}
+
+say_hello("Ryan")
