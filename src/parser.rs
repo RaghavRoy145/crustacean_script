@@ -73,6 +73,31 @@ impl<'p> Parser<'p> {
         };
     }
 
+    fn parse_fn(&mut self, with_identifier: bool) -> Result<Statement, ParseError> {
+        self.expect_token_and_read(Token::Fn)?;
+        let name: Identifier = if with_identifier { expect_identifier_and_read()?.into()
+        } else {
+            String::from("<Closure>")
+        };
+
+        self.expect_token_and_read(Token::LeftParen)?;
+        let mut params: Vec<Paramater> = Vec::new();    
+    }
+
+    fn expect_token(&mut self, token: Token) -> Result<Token, ParseError> {
+        if self.current_is(token) {
+            Ok(self.current.clone())
+        } else {
+            Err(ParseError::UnexpectedToken(self.current.clone()))
+        }
+    }
+
+    fn expect_token_and_read(&mut self, token: Token) -> Result<Token, ParseError> {
+        let result = self.expect_token(token)?;
+        self.read();
+        Ok(result)
+    }
+
     fn expect_identifier_and_read(&mut self) -> Result<Token, ParseError> {
         self.expect_token_and_read(Token::Identifier("".to_string()))
     }
