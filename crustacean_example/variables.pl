@@ -1,1 +1,1 @@
-let name = "RoiBoi"
+let age = 100
