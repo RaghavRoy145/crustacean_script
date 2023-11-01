@@ -35,6 +35,9 @@ impl<'i> Interpreter<'i> {
                     self.env_mut().set(name, value)
                 }
             },
+            Statement::Expression {expression} => {
+                self.run_expression(expression);
+            },
             _ => todo!("{:?}",statement),
         }
     }
@@ -53,7 +56,8 @@ impl<'i> Interpreter<'i> {
                     (Value::Number(l), Op::Subtracting, Value::Number(r)) => Value::Number(l - r),
                     _ => todo!()
                 }
-            }
+            },
+            Expression::Call()
             _ => todo!("{:?}", expression),
         })
     }

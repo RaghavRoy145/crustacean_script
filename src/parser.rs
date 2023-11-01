@@ -1,4 +1,5 @@
 use crate::ast::*;
+use crate::token::Token;
 
 pub fn parse(tokens: Vec<Token>) -> Result<Program, ParseError> {
     let mut parser = Parser::new(tokens.iter());
@@ -123,7 +124,24 @@ impl<'p> Parser<'p> {
     }
 
     fn parse_postfix_expression(&mut self, left: Expression) -> Result<Option<Expression>, ParseError> {
-        
+        Ok(match self.current {
+            Token::LeftParen => {
+                self.expect_token_and_read(Token::LeftParen)?;
+                let mut args = Vec::new();
+
+                while !self.current_is(Token::RightParen) {
+                    args.push(self.parse_expression(Precedence::Lowest)?);
+                    
+                    if self.current_is(Token::Comma) {
+                        self.read();
+                    }
+                }
+
+                self.expect_token_and_read(Token::RightParen)?;
+                Some(Expression::Call(Box::new(left), args))
+            },
+            _ => None
+        })
     }
 
     fn parse_let(&mut self) -> Result<Statement, ParseError> {
